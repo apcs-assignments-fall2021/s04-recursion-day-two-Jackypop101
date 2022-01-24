@@ -78,7 +78,7 @@ public class MyMain {
     // moreOddThanEven(521931) => true because 5 odd and 1 even
     public static boolean moreOddThanEven(int x) {
         // YOUR CODE HERE
-        if (moreOddThanEven1(x, 0) > numDigits(x)) {
+        if (moreOddThanEven1(x, 0) > numDigits(x)/2) {
             return true;
         }
         return false;
@@ -107,11 +107,19 @@ public class MyMain {
     // the second letter must match the second to last letter, and so on
     // Examples:
     // isPalindrome("racecar") => true
-    // isPalindrome("madam") => true
+    // isPalindrome("anna") => true
     // isPalindrome("racecars") => false
     public static boolean isPalindrome(String str) {
-        // YOUR CODE HERE
-        return false;
+        return isPalindrome1(str);
+    }
+    public static boolean isPalindrome1(String str) {
+        if ((str.length() == 0)||(str.length() == 1)){
+            return true;
+        }
+        else if (str.charAt(0) == str.charAt(str.length() -1)){
+            return isPalindrome1(str.substring(1, str.length()-1));
+        }
+        else return false;
     }
 
 
@@ -131,7 +139,8 @@ public class MyMain {
             return 0;
         }
         else{
-            return (x/ (int) Math.pow(10, (numDigits(x)-1))) + addDigits(x / 10);
+            int w = (x/ (int) Math.pow(10, (numDigits(x)-1)));
+            return w + addDigits(x -( w * (int) Math.pow(10, (numDigits(x)-1))));
         }
     }
 
@@ -145,21 +154,21 @@ public class MyMain {
     // parenTrim("x(hello)") => "(hello)"
     // parenTrim("(xy)1") => "(xy)"
     public static String parenTrim(String str) {
-        return parenTrim1(str, 0);
+        return "(" + parenTrim1(str, 0) + ")";
 
     }
     public static String parenTrim1(String str,int x) {
         if (str.length() == 0){
             return "";
         }
-        if (x == 1){
-            return str.charAt(0) + parenTrim1(str.substring(1, str.length()), x);
-        }
         else if (str.charAt(0) == '(') {
-            return parenTrim1(str.substring(1, str.length()), x++);
+            return parenTrim1(str.substring(1, str.length()), x + 1);
         }
         else if (str.charAt(0) == ')') {
-            return parenTrim1(str.substring(1, str.length()), x--);
+            return parenTrim1(str.substring(1, str.length()), x -1);
+        }
+        else if (x == 1){
+            return str.charAt(0) + parenTrim1(str.substring(1, str.length()), x);
         }
         return parenTrim1(str.substring(1, str.length()), x);
     }
