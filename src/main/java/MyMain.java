@@ -47,7 +47,20 @@ public class MyMain {
     // countBigDigits(521931) => 2
     public static int countBigDigits(int x) {
         // YOUR CODE HERE
-        return -1;
+        return countBigDigits1(x,0);
+    }
+    public static int countBigDigits1(int x, int count) {
+        if(x==0){
+            return count;
+        }
+        else{
+            if (x % 10 >= 5 ) {
+                return countBigDigits1(x / 10, count + 1);
+            }
+            else{
+                return countBigDigits1(x/10, count);
+            }
+        }
     }
 
     // Write a method that uses recursion to calculate whether
@@ -65,10 +78,26 @@ public class MyMain {
     // moreOddThanEven(521931) => true because 5 odd and 1 even
     public static boolean moreOddThanEven(int x) {
         // YOUR CODE HERE
+        if (moreOddThanEven1(x, 0) > numDigits(x)) {
+            return true;
+        }
         return false;
     }
+    public static int moreOddThanEven1(int x, int count) {
+        if(x == 0){
+            return count;
+        }
+        else{
+            if (x % 2 == 1) {
+                return moreOddThanEven1(x / 10, count + 1);
+            }
+        }
+        return count;
+    }
 
-    // This might be helpful to get started:
+
+
+        // This might be helpful to get started:
 //    public static boolean moreOddThanEvenTR(...) {
 
     // This method checks if a String is a palindrome
@@ -98,8 +127,12 @@ public class MyMain {
     // countBigDigits(99999) => 45
     // countBigDigits(521931) => 21
     public static int addDigits(int x) {
-        // YOUR CODE HERE
-        return -1;
+        if(x == 0){
+            return 0;
+        }
+        else{
+            return (x/ (int) Math.pow(10, (numDigits(x)-1))) + addDigits(x / 10);
+        }
     }
 
     // Write a method that is given a String containing a single pair
@@ -112,23 +145,45 @@ public class MyMain {
     // parenTrim("x(hello)") => "(hello)"
     // parenTrim("(xy)1") => "(xy)"
     public static String parenTrim(String str) {
-        // YOUR CODE HERE
-        return "";
+        return parenTrim1(str, 0);
+
+    }
+    public static String parenTrim1(String str,int x) {
+        if (str.length() == 0){
+            return "";
+        }
+        if (x == 1){
+            return str.charAt(0) + parenTrim1(str.substring(1, str.length()), x);
+        }
+        else if (str.charAt(0) == '(') {
+            return parenTrim1(str.substring(1, str.length()), x++);
+        }
+        else if (str.charAt(0) == ')') {
+            return parenTrim1(str.substring(1, str.length()), x--);
+        }
+        return parenTrim1(str.substring(1, str.length()), x);
     }
 
-    // This method returns the orignal string reversed;
+
+        // This method returns the orignal string reversed;
     // tail recursion could be helpful, but it not required!
     // Examples:
     // reverse("desserts") => stressed
     // reverse("racecar") => racecar
     public static String reverse(String str) {
-        // YOUR CODE HERE
-        return "";
+        return reverse1(str, 0, "");
+
+    }
+    public static String reverse1(String str,int x, String y) {
+        if (str.length() == 0) {
+            return "";
+        } else {
+            return reverse1(str.substring(1, str.length()), x, y) + str.charAt(0);
+        }
     }
 
 
-
     public static void main(String[] args) {
-        // Optional: Write some code here to test your methods!
+        System.out.println((8000/ (int) Math.pow(10, (numDigits(8000)-1)) ));
     }
 }
